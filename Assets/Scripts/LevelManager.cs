@@ -47,6 +47,7 @@ public class LevelManager : MonoBehaviour
 
 		yield return new WaitForSeconds(respawnDelay);
 
+        _player.knockBackCount = 0;
 		_player.transform.position = currentCheckPoint.transform.position;
 		
 		Instantiate(respawnParticle, currentCheckPoint.transform.position, currentCheckPoint.transform.rotation);

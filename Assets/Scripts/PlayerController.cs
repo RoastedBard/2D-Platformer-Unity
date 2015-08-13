@@ -12,6 +12,11 @@ public class PlayerController : MonoBehaviour
 	public float groundCheckRadius;
 	public LayerMask whatIsGround;
 
+    public float knockBack;
+    public float knockBackCount;
+    public float knockBackLength;
+    public bool  knockFromRight;
+
 	public float shotDelay;
 	private float shotDelayCounter;
 
@@ -60,7 +65,19 @@ public class PlayerController : MonoBehaviour
 			movingVelocity = movingSpeed;
 		}
 
-		GetComponent<Rigidbody2D>().velocity = new Vector2(movingVelocity, GetComponent<Rigidbody2D>().velocity.y);
+        if(knockBackCount <= 0)
+        {
+            GetComponent<Rigidbody2D>().velocity = new Vector2(movingVelocity, GetComponent<Rigidbody2D>().velocity.y);
+        }
+        else 
+        {
+            if(knockFromRight)
+                GetComponent<Rigidbody2D>().velocity = new Vector2(-knockBack, knockBack);
+            if(!knockFromRight)
+                GetComponent<Rigidbody2D>().velocity = new Vector2(knockBack, knockBack);
+
+            knockBackCount -= Time.deltaTime;
+        }
 
 		anim.SetFloat("speed", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x));
 
